@@ -23,7 +23,7 @@ include_directories(${SDL2_DIR})
 # 关联所有的库
 link_directories(${SDL2_LINK})
 
-add_executable(TheGameOfLife main.c)
+add_executable(TheGameOfLife main.c window.c game.c utilities.c utilities.h)
 
 # 配置关联库的名称
 target_link_libraries(TheGameOfLife mingw32 SDL2main SDL2 SDL2_image SDL2_ttf)
