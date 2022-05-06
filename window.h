@@ -2,8 +2,8 @@
 #define THEGAMEOFLIFE_WINDOW_H
 
 typedef struct {
-    unsigned char * array;
-    unsigned char * array_next;
+    unsigned char ** array;
+    unsigned char ** array_next;
     int width;
     int height;
     int delay;
