@@ -132,8 +132,6 @@ void detect_neighbours(window_t * game){
     }
 }
 
-//void plot_game(window_t *game, ) {
-
 void end_game(window_t * game){
     // Free the memory
     for (int i = 0; i < game->height; i++) {
