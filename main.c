@@ -8,33 +8,28 @@
 
 
 int main(int argc, char *argv[]){
-    int point_size = 4;
-    char settings[100] = "settings.txt";
-    char map[100] = "init_state.txt";
-    window_t * game = init_game(settings, map);
-//    printf("height: %d\n", window->height);
-//    printf("width: %d\n", window->width);
-//    printf("delay: %d\n", window->delay);
-//    printf("initial state:\n");
-//    for (int i = 0; i < window->height; i ++) {
-//        printf("%s\n", window->array[i]);
-//    }
-    detect_neighbours(game);
-//    printf("after detect neighbours:\n");
-//    for (int i = 0; i < window->height; i ++) {
-//        printf("%s\n", window->array[i]);
-//    }
     int quit = 0;
     int pause = 0;
     int mouseLeft = 0;
     int mouseRight = 0;
+    char settings[100] = "settings.txt";
+    char map[100] = "init_state.txt";
+    window_t * game = init_game(settings, map);
+//    printf("initial state:\n");
+//    for (int i = 0; i < game->height_num; i ++) {
+//        printf("%s\n", game->array[i]);
+//    }
+//    while (1){
+//        detect_neighbours(game);
+//    }
+
     // Initialize SDL2
     if(SDL_Init(SDL_INIT_VIDEO) < 0){
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         exit(1);
     }
     // Window initialization
-    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, game->width * point_size, game->height * point_size, SDL_WINDOW_SHOWN);
+    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, game->width, game->height, SDL_WINDOW_SHOWN);
     if(windows == NULL){
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
         exit(1);
@@ -65,15 +60,15 @@ int main(int argc, char *argv[]){
                         pause = !pause;
                         break;
                     case SDLK_UP:
-                        game->delay += 100;
-                        if (game->delay > 800){
-                            game->delay = 800;
-                        }
-                        break;
-                    case SDLK_DOWN:
                         game->delay -= 100;
                         if (game->delay < 1){
                             game->delay = 1;
+                        }
+                        break;
+                    case SDLK_DOWN:
+                        game->delay += 100;
+                        if (game->delay > 800){
+                            game->delay = 800;
                         }
                         break;
                 }
@@ -95,26 +90,26 @@ int main(int argc, char *argv[]){
                 }
             }
             if (event.type == SDL_MOUSEMOTION){
-                int new_x = event.button.x / point_size;
-                int new_y = event.button.y / point_size;
-                if (new_x < game->width && new_y < game->height){
+                int new_x = event.button.x / POINT_SIZE;
+                int new_y = event.button.y / POINT_SIZE;
+                if (new_x < game->width_num && new_y < game->height_num){
                     if (mouseLeft == 1){
-                        game->array[new_x][new_y] = '1';
+                        game->array[new_y][new_x] = '1';
                     } else if (mouseRight == 1){
-                        game->array[new_x][new_y] = '0';
+                        game->array[new_y][new_x] = '0';
                     }
                 }
             }
         }
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
-        if (!pause){
+        if (pause){
             detect_neighbours(game);
         }
         plot_game(game, renderer);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
         SDL_RenderPresent(renderer);
-        if (pause){
+        if (!pause){
             SDL_Delay(1);
         } else{
             SDL_Delay(game->delay);
@@ -124,4 +119,5 @@ int main(int argc, char *argv[]){
     end_game(game);
     SDL_DestroyWindow(windows);
     SDL_Quit();
+    return 0;
 }

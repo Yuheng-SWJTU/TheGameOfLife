@@ -4,11 +4,13 @@
 #include <SDL.h>
 
 typedef struct {
-    unsigned char ** array;
-    unsigned char ** array_next;
+    int width_num;
+    int height_num;
     int width;
     int height;
     int delay;
+    unsigned char ** array;
+    unsigned char ** array_next;
 } window_t;
 
 void creat_window(window_t * game);
