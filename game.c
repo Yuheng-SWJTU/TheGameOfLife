@@ -8,38 +8,49 @@
 #include <SDL.h>
 
 // A function to initial the game
-window_t * init_game(char * settings_file, char * map_file){
+window_t * init_game( char * init_file ){
     // Allocate memory for the window_t
     window_t * game = malloc(sizeof(window_t));
 
     // Read the settings.txt file
-    FILE *settings = fopen(settings_file, "r");
-    if (settings == NULL) {
+    FILE * init = fopen(init_file, "r");
+    if (init == NULL) {
         printf("Error: settings.txt not found\n");
         exit(1);
     }
     // Read the first line of the file
     char line[100];
-    fgets(line, 100, settings);
+    fgets(line, 100, init);
     game->width_num = atoi(line);
     // Read the second line of the file
-    fgets(line, 100, settings);
+    fgets(line, 100, init);
     game->height_num = atoi(line);
     // Read the third line of the file
-    fgets(line, 100, settings);
+    fgets(line, 100, init);
+    game->point_size = atoi(line);
+    // Read the fourth line of the file
+    fgets(line, 100, init);
+    // Allocate memory for the background_color
+    game->background_color = malloc((strlen(line) + 1) * sizeof(char));
+    strcpy(game->background_color, line);
+    // Read the fifth line of the file
+    fgets(line, 100, init);
+    // Allocate memory for the point_color
+    game->cell_color = malloc((strlen(line) + 1) * sizeof(char));
+    strcpy(game->cell_color, line);
+    // Read the sixth line of the file
+    fgets(line, 100, init);
     game->delay = atoi(line);
-    // Close the file
-    fclose(settings);
 
     game->width = game->width_num * POINT_SIZE;
     game->height = game->height_num * POINT_SIZE;
 
     // Read the map.txt file
-    FILE *map = fopen(map_file, "r");
-    if (map == NULL) {
-        printf("Error: init_state.txt not found\n");
-        exit(1);
-    }
+//    FILE *map = fopen(map_file, "r");
+//    if (map == NULL) {
+//        printf("Error: init_state.txt not found\n");
+//        exit(1);
+//    }
 
     // Allocate memory for the window_t array
     game->array = malloc((game->height_num) * sizeof (unsigned char *));
@@ -51,7 +62,7 @@ window_t * init_game(char * settings_file, char * map_file){
         // Define a char to read the line
         char temp[1024];
         // Read the line
-        fgets(temp, 1024, map);
+        fgets(temp, 1024, init);
         game->array[i] = (unsigned char *)choose_width(temp, game->width_num);
 //        game->array_next[i] = game->array[i];
         game->array_next[i] = (unsigned char *) choose_width(temp, game->width_num);
@@ -141,4 +152,26 @@ void end_game(window_t * game){
     free(game->array);
     free(game->array_next);
     free(game);
+}
+
+void save_game(window_t * game){
+    // Open the file
+    FILE * file = fopen("history.txt", "w");
+    printf("Saving the game...\n");
+    // Saving the width and height
+    fprintf(file, "%d\n", game->width_num);
+    fprintf(file, "%d\n", game->height_num);
+    fprintf(file, "%d\n", game->point_size);
+    fprintf(file, "%s", game->background_color);
+    fprintf(file, "%s", game->cell_color);
+    fprintf(file, "%d\n", game->delay);
+    // Print the state
+    for (int i = 0; i < game->height_num; i ++) {
+        for (int j = 0; j < game->width_num; j ++) {
+            fprintf(file, "%c", game->array[i][j]);
+        }
+        fprintf(file, "\n");
+    }
+    // Close the file
+    fclose(file);
 }

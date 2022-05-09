@@ -8,12 +8,14 @@ typedef struct {
     int height_num;
     int width;
     int height;
+    int point_size;
+    char * background_color;
+    char * cell_color;
     int delay;
     unsigned char ** array;
     unsigned char ** array_next;
 } window_t;
 
-void creat_window(window_t * game);
 void plot_game(window_t *game, SDL_Renderer *renderer);
 
 #endif //THEGAMEOFLIFE_WINDOW_H

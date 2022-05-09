@@ -12,9 +12,8 @@ int main(int argc, char *argv[]){
     int pause = 0;
     int mouseLeft = 0;
     int mouseRight = 0;
-    char settings[100] = "settings.txt";
-    char map[100] = "init_state.txt";
-    window_t * game = init_game(settings, map);
+    char init[100] = "init_state.txt";
+    window_t * game = init_game(init);
 //    printf("initial state:\n");
 //    for (int i = 0; i < game->height_num; i ++) {
 //        printf("%s\n", game->array[i]);
@@ -116,6 +115,7 @@ int main(int argc, char *argv[]){
         }
     }
 
+    save_game(game);
     end_game(game);
     SDL_DestroyWindow(windows);
     SDL_Quit();

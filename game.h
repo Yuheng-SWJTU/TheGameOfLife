@@ -4,8 +4,9 @@
 
 #include "window.h"
 
-window_t * init_game(char * settings_file, char * map_file);
+window_t * init_game(char * init_file);
 void detect_neighbours(window_t * game);
 void end_game(window_t * game);
+void save_game(window_t * game);
 
 #endif //THEGAMEOFLIFE_GAME_H
