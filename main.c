@@ -8,12 +8,36 @@
 
 
 int main(int argc, char *argv[]){
+    int step = 0;
+    int count = 0;
     int quit = 0;
     int pause = 0;
     int mouseLeft = 0;
     int mouseRight = 0;
-    char init[100] = "init_state.txt";
-    window_t * game = init_game(init);
+
+    if (argc < 2 || argc > 3){
+        printf("\n[!] Error! Expected use: ./play [FILENAME] [STEPS]\n");
+        exit(-1);
+    } else {
+        if ((strcmp(argv[1], "init_state.txt") != 0) && (strcmp(argv[1], "history.txt") != 0)){
+            printf("\n[!] Error! Expected use: 'init_state.txt' or 'history.txt'\n");
+            exit(-2);
+        } if (argc == 2){
+            step = -1;
+        }
+        if (argc == 3){
+            if (atoi(argv[2]) < 1){
+                printf("\n[!] Error! Expected use: [STEPS] > 0\n");
+                exit(-3);
+            } else {
+                step = atoi(argv[2]);
+            }
+        }
+    }
+
+    printf("\n[+] Initializing the game...\n");
+
+    window_t * game = init_game(argv[1]);
 //    printf("initial state:\n");
 //    for (int i = 0; i < game->height_num; i ++) {
 //        printf("%s\n", game->array[i]);
@@ -89,8 +113,8 @@ int main(int argc, char *argv[]){
                 }
             }
             if (event.type == SDL_MOUSEMOTION){
-                int new_x = event.button.x / POINT_SIZE;
-                int new_y = event.button.y / POINT_SIZE;
+                int new_x = event.button.x / game->point_size;
+                int new_y = event.button.y / game->point_size;
                 if (new_x < game->width_num && new_y < game->height_num){
                     if (mouseLeft == 1){
                         game->array[new_y][new_x] = '1';
@@ -101,18 +125,35 @@ int main(int argc, char *argv[]){
             }
         }
         SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+        SDL_SetRenderDrawColor(renderer, game->R_cell, game->G_cell, game->B_cell, 1);
         if (pause){
-            detect_neighbours(game);
+            if (step == -1){
+                detect_neighbours(game);
+            }else{
+                if (count < step){
+                    detect_neighbours(game);
+                    count++;
+                }
+                if (count == step + 1){
+                    pause = 0;
+                    count ++;
+                }
+                if (count >= step && pause == 1){
+                    detect_neighbours(game);
+                    count++;
+                }
+            }
         }
         plot_game(game, renderer);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
+        SDL_SetRenderDrawColor(renderer, game->R_bac, game->G_bac, game->B_bac, 1);
         SDL_RenderPresent(renderer);
-        if (!pause){
-            SDL_Delay(1);
-        } else{
-            SDL_Delay(game->delay);
-        }
+//        if (!pause || count < step){
+//            printf("1");
+//            SDL_Delay(1);
+//        } else{
+//            SDL_Delay(game->delay);
+//        }
+        SDL_Delay(game->delay);
     }
 
     save_game(game);

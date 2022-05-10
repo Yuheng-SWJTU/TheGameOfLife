@@ -42,8 +42,10 @@ window_t * init_game( char * init_file ){
     fgets(line, 100, init);
     game->delay = atoi(line);
 
-    game->width = game->width_num * POINT_SIZE;
-    game->height = game->height_num * POINT_SIZE;
+    game->width = game->width_num * game->point_size;
+    game->height = game->height_num * game->point_size;
+
+    setting_colors(game);
 
     // Read the map.txt file
 //    FILE *map = fopen(map_file, "r");

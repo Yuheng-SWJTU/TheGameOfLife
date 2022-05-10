@@ -9,6 +9,12 @@ typedef struct {
     int width;
     int height;
     int point_size;
+    int R_bac;
+    int G_bac;
+    int B_bac;
+    int R_cell;
+    int G_cell;
+    int B_cell;
     char * background_color;
     char * cell_color;
     int delay;
@@ -17,5 +23,6 @@ typedef struct {
 } window_t;
 
 void plot_game(window_t *game, SDL_Renderer *renderer);
+int setting_colors(window_t * game);
 
 #endif //THEGAMEOFLIFE_WINDOW_H
