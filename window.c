@@ -1,5 +1,4 @@
 #include "window.h"
-#include "game.h"
 
 #include <SDL.h>
 #include <stdio.h>
@@ -46,6 +45,8 @@ int setting_colors(window_t * game){
         game->G_bac = 210;
         game->B_bac = 59;
     } else{
+        printf("\n[!] Warning: We cannot find the color you set in background."
+               "\n[!] We have set the default background color for you!\n");
         game->R_bac = 196;
         game->G_bac = 183;
         game->B_bac = 215;
@@ -76,6 +77,8 @@ int setting_colors(window_t * game){
         game->G_cell = 210;
         game->B_cell = 59;
     } else{
+        printf("\n[!] Warning: We cannot find the color you set in cell."
+               "\n[!] We have set the default cell color for you!\n");
         game->R_cell = 112;
         game->G_cell = 86;
         game->B_cell = 151;

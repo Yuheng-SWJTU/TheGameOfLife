@@ -1,6 +1,5 @@
 #ifndef THEGAMEOFLIFE_GAME_H
 #define THEGAMEOFLIFE_GAME_H
-#define POINT_SIZE 8
 
 #include "window.h"
 

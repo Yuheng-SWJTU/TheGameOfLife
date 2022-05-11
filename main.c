@@ -84,14 +84,14 @@ int main(int argc, char *argv[]){
                         break;
                     case SDLK_UP:
                         game->delay -= 100;
-                        if (game->delay < 1){
-                            game->delay = 1;
+                        if (game->delay < 10){
+                            game->delay = 10;
                         }
                         break;
                     case SDLK_DOWN:
                         game->delay += 100;
-                        if (game->delay > 800){
-                            game->delay = 800;
+                        if (game->delay > 600){
+                            game->delay = 600;
                         }
                         break;
                 }
@@ -147,12 +147,6 @@ int main(int argc, char *argv[]){
         plot_game(game, renderer);
         SDL_SetRenderDrawColor(renderer, game->R_bac, game->G_bac, game->B_bac, 1);
         SDL_RenderPresent(renderer);
-//        if (!pause || count < step){
-//            printf("1");
-//            SDL_Delay(1);
-//        } else{
-//            SDL_Delay(game->delay);
-//        }
         SDL_Delay(game->delay);
     }
 

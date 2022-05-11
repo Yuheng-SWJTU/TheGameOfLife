@@ -1,5 +1,4 @@
 #include "game.h"
-#include "window.h"
 #include "utilities.h"
 
 #include <stdio.h>
@@ -15,18 +14,30 @@ window_t * init_game( char * init_file ){
     // Read the settings.txt file
     FILE * init = fopen(init_file, "r");
     if (init == NULL) {
-        printf("Error: settings.txt not found\n");
+        printf("\n[!] Error: settings.txt not found\n");
         exit(1);
     }
     // Read the first line of the file
     char line[100];
     fgets(line, 100, init);
+    if (strcmp(check_init(line), "Error") == 0) {
+        printf("\n[!] Error: the 'width_num' should be a number!\n");
+        exit(1);
+    }
     game->width_num = atoi(line);
     // Read the second line of the file
     fgets(line, 100, init);
+    if (strcmp(check_init(line), "Error") == 0) {
+        printf("\n[!] Error: the 'height_num' should be a number!\n");
+        exit(1);
+    }
     game->height_num = atoi(line);
     // Read the third line of the file
     fgets(line, 100, init);
+    if (strcmp(check_init(line), "Error") == 0) {
+        printf("\n[!] Error: the 'point_size' should be a number!\n");
+        exit(1);
+    }
     game->point_size = atoi(line);
     // Read the fourth line of the file
     fgets(line, 100, init);
@@ -40,19 +51,53 @@ window_t * init_game( char * init_file ){
     strcpy(game->cell_color, line);
     // Read the sixth line of the file
     fgets(line, 100, init);
+    if (strcmp(check_init(line), "Error") == 0) {
+        printf("\n[!] Error: the 'delay' should be a number!\n");
+        exit(1);
+    }
     game->delay = atoi(line);
 
     game->width = game->width_num * game->point_size;
     game->height = game->height_num * game->point_size;
 
-    setting_colors(game);
+    // Check point_size
+    if (game->point_size < 2) {
+        printf("\n[!] Error: the 'point_size' should be at least 2!");
+        exit(2);
+    }
 
-    // Read the map.txt file
-//    FILE *map = fopen(map_file, "r");
-//    if (map == NULL) {
-//        printf("Error: init_state.txt not found\n");
-//        exit(1);
-//    }
+    // Check width_num
+    if (game->width_num < 9 || game->width_num > 210) {
+        printf("\n[!] Error: the 'width_num' should be between 9 and 210!");
+        exit(2);
+    }
+
+    // Check height_num
+    if (game->height_num < 9 || game->height_num > 120){
+        printf("\n[!] Error: the 'height_num' should be between 9 and 120!");
+        exit(2);
+    }
+
+    // Check resolution
+    if (game->width > 1200 || game->width < 400 || game->height > 720 || game->height < 240) {
+        printf("\n[!] Warning: 'width_num' x 'point_size' should be between 400 and 1200!"
+               "\n[!] and 'height_num' x 'point_size' should be between 240 and 720!"
+               "\n[!] We have set the best resolution for you!\n");
+        game->width_num = 100;
+        game->height_num = 60;
+        game->point_size = 8;
+        game->height = game->height_num * game->point_size;
+        game->width = game->width_num * game->point_size;
+    }
+
+    // Check delay
+    if (game->delay < 10 || game->delay > 600) {
+        printf("\n[!] Warning: the 'delay' should be between 1 and 100!"
+               "\n[!] We have set the best delay for you!\n");
+        game->delay = 100;
+    }
+
+    setting_colors(game);
 
     // Allocate memory for the window_t array
     game->array = malloc((game->height_num) * sizeof (unsigned char *));
@@ -66,14 +111,12 @@ window_t * init_game( char * init_file ){
         // Read the line
         fgets(temp, 1024, init);
         game->array[i] = (unsigned char *)choose_width(temp, game->width_num);
-//        game->array_next[i] = game->array[i];
         game->array_next[i] = (unsigned char *) choose_width(temp, game->width_num);
     }
     return game;
 }
 
 void detect_neighbours(window_t * game){
-//    char * update = malloc((game->height_num) * sizeof (unsigned char *));
     // Loop through the array
     for (int i = 0; i < game->height_num; i++) {
         for (int j = 0; j < game->width_num; j++) {
@@ -135,21 +178,13 @@ void detect_neighbours(window_t * game){
     for (int i = 0; i < game->height_num; i ++) {
         memcpy(game->array[i], game->array_next[i], game->width_num * sizeof (unsigned char));
     }
-    // Print the state
-//    for (int i = 0; i < game->height_num; i ++) {
-//        for (int j = 0; j < game->width_num; j ++) {
-//            printf("%c", game->array[i][j]);
-//        }
-//        printf("\n");
-//    }
-//    printf("\n");
 }
 
 void end_game(window_t * game){
     // Free the memory
     for (int i = 0; i < game->height_num; i++) {
         free(game->array[i]);
-//        free(game->array_next[i]);
+        free(game->array_next[i]);
     }
     free(game->array);
     free(game->array_next);
@@ -159,6 +194,11 @@ void end_game(window_t * game){
 void save_game(window_t * game){
     // Open the file
     FILE * file = fopen("history.txt", "w");
+    // If error, return
+    if (file == NULL) {
+        printf("[!] Error: saving error!\n");
+        exit(3);
+    }
     printf("Saving the game...\n");
     // Saving the width and height
     fprintf(file, "%d\n", game->width_num);
