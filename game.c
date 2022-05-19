@@ -180,6 +180,15 @@ void detect_neighbours(window_t * game){
     }
 }
 
+void clear_screen(window_t * game){
+    // Clear the screen
+    for (int i = 0; i < game->height_num; i++) {
+        for (int j = 0; j < game->width_num; j++) {
+            game->array[i][j] = '0';
+        }
+    }
+}
+
 void end_game(window_t * game){
     // Free the memory
     for (int i = 0; i < game->height_num; i++) {
@@ -197,9 +206,9 @@ void save_game(window_t * game){
     // If error, return
     if (file == NULL) {
         printf("[!] Error: saving error!\n");
-        exit(3);
+        exit(1);
     }
-    printf("Saving the game...\n");
+    printf("\n[+] Saving the game...\n");
     // Saving the width and height
     fprintf(file, "%d\n", game->width_num);
     fprintf(file, "%d\n", game->height_num);

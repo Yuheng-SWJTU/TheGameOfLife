@@ -14,18 +14,23 @@ int main(int argc, char *argv[]){
     int pause = 0;
     int mouseLeft = 0;
     int mouseRight = 0;
+    int mode = 0;
 
-    if (argc < 2 || argc > 3){
-        printf("\n[!] Error! Expected use: ./play [FILENAME] [STEPS]\n");
+    if (argc < 3 || argc > 4){
+        printf("\n[!] Error! Expected use: ./play [FILENAME] [MODE] [STEPS]\n");
         exit(-1);
     } else {
         if ((strcmp(argv[1], "init_state.txt") != 0) && (strcmp(argv[1], "history.txt") != 0)){
             printf("\n[!] Error! Expected use: 'init_state.txt' or 'history.txt'\n");
             exit(-2);
-        } if (argc == 2){
-            step = -1;
+        }
+        if ((strcmp(argv[2], "CUSTOM") == 0)){
+            mode = 1;
         }
         if (argc == 3){
+            step = -1;
+        }
+        if (argc == 4){
             if (atoi(argv[2]) < 1){
                 printf("\n[!] Error! Expected use: [STEPS] > 0\n");
                 exit(-3);
@@ -38,31 +43,29 @@ int main(int argc, char *argv[]){
     printf("\n[+] Initializing the game...\n");
 
     window_t * game = init_game(argv[1]);
-//    printf("initial state:\n");
-//    for (int i = 0; i < game->height_num; i ++) {
-//        printf("%s\n", game->array[i]);
-//    }
-//    while (1){
-//        detect_neighbours(game);
-//    }
 
     // Initialize SDL2
     if(SDL_Init(SDL_INIT_VIDEO) < 0){
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        printf("\n[!] SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         exit(1);
     }
     // Window initialization
-    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, game->width, game->height, SDL_WINDOW_SHOWN);
+    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, game->width, game->height + 60, SDL_WINDOW_SHOWN);
     if(windows == NULL){
-        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        printf("\n[!] Window could not be created! SDL_Error: %s\n", SDL_GetError());
         exit(1);
     }
     // Renderer initialization
     SDL_Renderer *renderer = SDL_CreateRenderer(windows, -1, SDL_RENDERER_ACCELERATED);
     if(renderer == NULL){
-        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        printf("\n[!] Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
         exit(1);
     }
+
+    if (mode == 1){
+        clear_screen(game);
+    }
+
     // SDL event
     SDL_Event event;
     // Main loop
@@ -83,16 +86,19 @@ int main(int argc, char *argv[]){
                         pause = !pause;
                         break;
                     case SDLK_UP:
-                        game->delay -= 100;
+                        game->delay -= 50;
                         if (game->delay < 10){
                             game->delay = 10;
                         }
                         break;
                     case SDLK_DOWN:
-                        game->delay += 100;
+                        game->delay += 50;
                         if (game->delay > 600){
                             game->delay = 600;
                         }
+                        break;
+                    case SDLK_LEFT:
+                        clear_screen(game);
                         break;
                 }
             }
@@ -129,9 +135,11 @@ int main(int argc, char *argv[]){
         if (pause){
             if (step == -1){
                 detect_neighbours(game);
+                SDL_Delay(game->delay);
             }else{
                 if (count < step){
                     detect_neighbours(game);
+                    SDL_Delay(game->delay);
                     count++;
                 }
                 if (count == step + 1){
@@ -140,6 +148,7 @@ int main(int argc, char *argv[]){
                 }
                 if (count >= step && pause == 1){
                     detect_neighbours(game);
+                    SDL_Delay(game->delay);
                     count++;
                 }
             }
@@ -147,12 +156,12 @@ int main(int argc, char *argv[]){
         plot_game(game, renderer);
         SDL_SetRenderDrawColor(renderer, game->R_bac, game->G_bac, game->B_bac, 1);
         SDL_RenderPresent(renderer);
-        SDL_Delay(game->delay);
+//        SDL_Delay(game->delay);
     }
 
     save_game(game);
     end_game(game);
     SDL_DestroyWindow(windows);
     SDL_Quit();
-    return 0;
+    return EXIT_SUCCESS;
 }

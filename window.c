@@ -9,11 +9,14 @@ void plot_game(window_t *game, SDL_Renderer *renderer) {
         for (int j = 0; j < game->width_num; j ++) {
             if (game->array[i][j] == '1') {
                 SDL_Rect rec;
-                rec.x = j * game->point_size;
-                rec.y = i * game->point_size;
                 rec.w = game->point_size;
                 rec.h = game->point_size;
+                rec.y = i * game->point_size;
+                rec.x = j * game->point_size;
                 SDL_RenderFillRect(renderer, &rec);
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
+                SDL_RenderDrawRect(renderer, &rec);
+                SDL_SetRenderDrawColor(renderer, game->R_cell, game->G_cell, game->B_cell, 1);
             }
         }
     }
