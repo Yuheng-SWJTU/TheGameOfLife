@@ -24,5 +24,15 @@ typedef struct {
 
 void plot_game(window_t *game, SDL_Renderer *renderer);
 int setting_colors(window_t * game);
+int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game);
+int isPauseOnButton(Uint32 x, Uint32 y, window_t *game);
+int speedDownButton(SDL_Renderer *ButtonRender, window_t *game);
+int isSpeedDownOnButton(Uint32 x, Uint32 y, window_t *game);
+int speedUpButton(SDL_Renderer *ButtonRender, window_t *game);
+int isSpeedUpOnButton(Uint32 x, Uint32 y, window_t *game);
+int clearButton(SDL_Renderer *ButtonRender, window_t *game);
+int isClearOnButton(Uint32 x, Uint32 y, window_t *game);
+int randomButton(SDL_Renderer *ButtonRender, window_t *game);
+int isRandomOnButton(Uint32 x, Uint32 y, window_t *game);
 
 #endif //THEGAMEOFLIFE_WINDOW_H

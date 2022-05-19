@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 
 void plot_game(window_t *game, SDL_Renderer *renderer) {
@@ -86,5 +87,115 @@ int setting_colors(window_t * game){
         game->G_cell = 86;
         game->B_cell = 151;
     }
+    return 0;
+}
+
+int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game){
+    SDL_Surface *ButtonSur = NULL;
+    SDL_Texture *ButtonText = NULL;
+    SDL_Rect ButtRect;
+    ButtRect.x = game->width / 2 - 20;
+    ButtRect.y = game->height + 10;
+    ButtRect.w = 40;
+    ButtRect.h = 40;
+    const char* buttonPausePlayFile[] = {"images/button_pause_0.png"};
+    const char * OpenButton = buttonPausePlayFile[ButtonMode];
+    ButtonSur = IMG_Load(OpenButton);
+    ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
+    SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
+    return 0;
+}
+
+int isPauseOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (x >= game->width / 2 - 20 && x <= game->width / 2 + 20)
+        if (y >= game->height + 10 && y <= game->height + 50) return 1;
+    return 0;
+}
+
+int speedDownButton(SDL_Renderer *ButtonRender, window_t *game){
+    SDL_Surface *ButtonSur = NULL;
+    SDL_Texture *ButtonText = NULL;
+    SDL_Rect ButtRect;
+    ButtRect.x = game->width / 2 - 70;
+    ButtRect.y = game->height + 15;
+    ButtRect.w = 30;
+    ButtRect.h = 30;
+    const char* buttonPausePlayFile[] = {"images/button_speed_down.png"};
+    const char * OpenButton = buttonPausePlayFile[0];
+    ButtonSur = IMG_Load(OpenButton);
+    ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
+    SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
+    return 0;
+}
+
+int isSpeedDownOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (x >= game->width / 2 - 70 && x <= game->width / 2 - 40)
+        if (y >= game->height + 15 && y <= game->height + 45) return 1;
+    return 0;
+}
+
+int speedUpButton(SDL_Renderer *ButtonRender, window_t *game){
+    SDL_Surface *ButtonSur = NULL;
+    SDL_Texture *ButtonText = NULL;
+    SDL_Rect ButtRect;
+    ButtRect.x = game->width / 2 + 40;
+    ButtRect.y = game->height + 15;
+    ButtRect.w = 30;
+    ButtRect.h = 30;
+    const char* buttonPausePlayFile[] = {"images/button_speed_up.png"};
+    const char * OpenButton = buttonPausePlayFile[0];
+    ButtonSur = IMG_Load(OpenButton);
+    ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
+    SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
+    return 0;
+}
+
+int isSpeedUpOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (x >= game->width / 2 + 40 && x <= game->width / 2 + 70)
+        if (y >= game->height + 15 && y <= game->height + 45) return 1;
+    return 0;
+}
+
+int clearButton(SDL_Renderer *ButtonRender, window_t *game){
+    SDL_Surface *ButtonSur = NULL;
+    SDL_Texture *ButtonText = NULL;
+    SDL_Rect ButtRect;
+    ButtRect.x = 10;
+    ButtRect.y = game->height + 15;
+    ButtRect.w = 30;
+    ButtRect.h = 30;
+    const char* buttonPausePlayFile[] = {"images/button_clear.png"};
+    const char * OpenButton = buttonPausePlayFile[0];
+    ButtonSur = IMG_Load(OpenButton);
+    ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
+    SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
+    return 0;
+}
+
+int isClearOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (x >= 10 && x <= 40)
+        if (y >= game->height + 15 && y <= game->height + 45) return 1;
+    return 0;
+}
+
+int randomButton(SDL_Renderer *ButtonRender, window_t *game){
+    SDL_Surface *ButtonSur = NULL;
+    SDL_Texture *ButtonText = NULL;
+    SDL_Rect ButtRect;
+    ButtRect.x = game->width - 40;
+    ButtRect.y = game->height + 15;
+    ButtRect.w = 30;
+    ButtRect.h = 30;
+    const char* buttonPausePlayFile[] = {"images/button_random.png"};
+    const char * OpenButton = buttonPausePlayFile[0];
+    ButtonSur = IMG_Load(OpenButton);
+    ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
+    SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
+    return 0;
+}
+
+int isRandomOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (x >= game->width - 40 && x <= game->width - 10)
+        if (y >= game->height + 15 && y <= game->height + 45) return 1;
     return 0;
 }

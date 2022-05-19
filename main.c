@@ -15,6 +15,7 @@ int main(int argc, char *argv[]){
     int mouseLeft = 0;
     int mouseRight = 0;
     int mode = 0;
+    int buttonPause = 0;
 
     if (argc < 3 || argc > 4){
         printf("\n[!] Error! Expected use: ./play [FILENAME] [MODE] [STEPS]\n");
@@ -62,6 +63,10 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
+    // Initialize Surface
+//    SDL_Surface *ButtonSur = NULL;
+//    SDL_Texture *ButtonText = NULL;
+
     if (mode == 1){
         clear_screen(game);
     }
@@ -105,6 +110,24 @@ int main(int argc, char *argv[]){
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     mouseLeft = 1;
+                    if (isPauseOnButton(event.button.x, event.button.y, game)){
+                        pause = !pause;
+                    }
+                    if (isSpeedDownOnButton(event.button.x, event.button.y, game)){
+                        game->delay += 50;
+                        if (game->delay > 600){
+                            game->delay = 600;
+                        }
+                    }
+                    if (isSpeedUpOnButton(event.button.x, event.button.y, game)){
+                        game->delay -= 50;
+                        if (game->delay < 10){
+                            game->delay = 10;
+                        }
+                    }
+                    if (isClearOnButton(event.button.x, event.button.y, game)){
+                        clear_screen(game);
+                    }
                 }
                 if (event.button.button == SDL_BUTTON_RIGHT){
                     mouseRight = 1;
@@ -155,8 +178,12 @@ int main(int argc, char *argv[]){
         }
         plot_game(game, renderer);
         SDL_SetRenderDrawColor(renderer, game->R_bac, game->G_bac, game->B_bac, 1);
+        PauseButton(0, renderer, game);
+        speedDownButton(renderer, game);
+        speedUpButton(renderer, game);
+        clearButton(renderer, game);
+        randomButton(renderer, game);
         SDL_RenderPresent(renderer);
-//        SDL_Delay(game->delay);
     }
 
     save_game(game);
