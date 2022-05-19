@@ -105,6 +105,9 @@ int main(int argc, char *argv[]){
                     case SDLK_LEFT:
                         clear_screen(game);
                         break;
+                    case SDLK_RIGHT:
+                        clear_screen(game);
+                        random(game);
                 }
             }
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -127,6 +130,10 @@ int main(int argc, char *argv[]){
                     }
                     if (isClearOnButton(event.button.x, event.button.y, game)){
                         clear_screen(game);
+                    }
+                    if (isRandomOnButton(event.button.x, event.button.y, game)){
+                        clear_screen(game);
+                        random(game);
                     }
                 }
                 if (event.button.button == SDL_BUTTON_RIGHT){

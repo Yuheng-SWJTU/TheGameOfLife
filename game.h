@@ -8,5 +8,6 @@ void detect_neighbours(window_t * game);
 void end_game(window_t * game);
 void save_game(window_t * game);
 void clear_screen(window_t * game);
+void random(window_t * game);
 
 #endif //THEGAMEOFLIFE_GAME_H

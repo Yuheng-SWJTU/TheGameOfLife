@@ -189,6 +189,23 @@ void clear_screen(window_t * game){
     }
 }
 
+void random(window_t * game){
+    // Loop through the array
+    for (int i = 0; i < game->height_num; i++) {
+        for (int j = 0; j < game->width_num; j++) {
+            // Generate a random number
+            int random_number = rand() % 6;
+            // If the number is 1, the cell is alive
+            if (random_number == 1) {
+                game->array[i][j] = '1';
+            } else {
+                // If the number is 0, the cell is dead
+                game->array[i][j] = '0';
+            }
+        }
+    }
+}
+
 void end_game(window_t * game){
     // Free the memory
     for (int i = 0; i < game->height_num; i++) {
