@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <stdio.h>
 
 void plot_game(window_t *game, SDL_Renderer *renderer) {
@@ -101,6 +102,10 @@ int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game){
     const char* buttonPausePlayFile[] = {"images/button_pause_0.png"};
     const char * OpenButton = buttonPausePlayFile[ButtonMode];
     ButtonSur = IMG_Load(OpenButton);
+    if (ButtonSur == NULL) {
+        printf("\n[!] Error: Cannot load the button image!\n");
+        exit(1);
+    }
     ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
     SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
     return 0;
@@ -123,6 +128,10 @@ int speedDownButton(SDL_Renderer *ButtonRender, window_t *game){
     const char* buttonPausePlayFile[] = {"images/button_speed_down.png"};
     const char * OpenButton = buttonPausePlayFile[0];
     ButtonSur = IMG_Load(OpenButton);
+    if (ButtonSur == NULL) {
+        printf("\n[!] Error: Cannot load the button image!\n");
+        exit(1);
+    }
     ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
     SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
     return 0;
@@ -145,6 +154,10 @@ int speedUpButton(SDL_Renderer *ButtonRender, window_t *game){
     const char* buttonPausePlayFile[] = {"images/button_speed_up.png"};
     const char * OpenButton = buttonPausePlayFile[0];
     ButtonSur = IMG_Load(OpenButton);
+    if (ButtonSur == NULL) {
+        printf("\n[!] Error: Cannot load the button image!\n");
+        exit(1);
+    }
     ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
     SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
     return 0;
@@ -167,6 +180,10 @@ int clearButton(SDL_Renderer *ButtonRender, window_t *game){
     const char* buttonPausePlayFile[] = {"images/button_clear.png"};
     const char * OpenButton = buttonPausePlayFile[0];
     ButtonSur = IMG_Load(OpenButton);
+    if (ButtonSur == NULL) {
+        printf("\n[!] Error: Cannot load the button image!\n");
+        exit(1);
+    }
     ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
     SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
     return 0;
@@ -189,6 +206,10 @@ int randomButton(SDL_Renderer *ButtonRender, window_t *game){
     const char* buttonPausePlayFile[] = {"images/button_random.png"};
     const char * OpenButton = buttonPausePlayFile[0];
     ButtonSur = IMG_Load(OpenButton);
+    if (ButtonSur == NULL) {
+        printf("\n[!] Error: Cannot load the button image!\n");
+        exit(1);
+    }
     ButtonText = SDL_CreateTextureFromSurface(ButtonRender, ButtonSur);
     SDL_RenderCopy(ButtonRender, ButtonText, NULL, &ButtRect);
     return 0;
@@ -197,5 +218,190 @@ int randomButton(SDL_Renderer *ButtonRender, window_t *game){
 int isRandomOnButton(Uint32 x, Uint32 y, window_t *game){
     if (x >= game->width - 40 && x <= game->width - 10)
         if (y >= game->height + 15 && y <= game->height + 45) return 1;
+    return 0;
+}
+
+int showGeneration(SDL_Renderer *renderer){
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 14);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, "Generation: ", textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = 10;
+    textRect.y = 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    return 0;
+}
+
+int showGenerationNum(int count, SDL_Renderer *renderer){
+    char str[10];
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 14);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, itoa(count, str, 10), textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = 90;
+    textRect.y = 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    return 0;
+}
+
+int showDelay(SDL_Renderer *renderer, window_t *game){
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 14);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, "Delay: ", textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = game->width - 100;
+    textRect.y = 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    return 0;
+}
+
+int showDelayNum(SDL_Renderer *renderer, window_t *game){
+    char str[10];
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 14);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, itoa(game->delay, str, 10), textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = game->width - 55;
+    textRect.y = 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    return 0;
+}
+
+int showPause(SDL_Renderer *renderer, window_t *game){
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 20);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, "P A U S E", textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = game->width / 2 - textSurface->w / 2;
+    textRect.y = 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    return 0;
+}
+
+int showLives(SDL_Renderer *renderer, window_t *game){
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 14);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, "Lives:", textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = game->width / 2 - textSurface->w / 2 - 20;
+    textRect.y = game->height - 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    return 0;
+}
+
+int showLivesNum(SDL_Renderer *renderer, window_t *game, int lives){
+    char str[10];
+    if (TTF_Init() == -1) {
+        printf("[!] TTF_Init: %s\n", TTF_GetError());
+        exit(2);
+    }
+    TTF_Font *font = TTF_OpenFont("fonts/arial.ttf", 14);
+    if (font == NULL) {
+        printf("[!] TTF_OpenFont: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Color textColor = {255, 255, 255};
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, itoa(lives, str, 10), textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect;
+    textRect.x = game->width / 2 - textSurface->w / 2 + 10;
+    textRect.y = game->height - 10;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
     return 0;
 }

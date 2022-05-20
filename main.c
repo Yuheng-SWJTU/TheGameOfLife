@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 #include <SDL.h>
-#include <SDL_ttf.h>
-#include <SDL_image.h>
 
 
 int main(int argc, char *argv[]){
@@ -15,7 +13,7 @@ int main(int argc, char *argv[]){
     int mouseLeft = 0;
     int mouseRight = 0;
     int mode = 0;
-    int buttonPause = 0;
+    int generation = 0;
 
     if (argc < 3 || argc > 4){
         printf("\n[!] Error! Expected use: ./play [FILENAME] [MODE] [STEPS]\n");
@@ -32,11 +30,11 @@ int main(int argc, char *argv[]){
             step = -1;
         }
         if (argc == 4){
-            if (atoi(argv[2]) < 1){
+            if (atoi(argv[3]) < 1){
                 printf("\n[!] Error! Expected use: [STEPS] > 0\n");
                 exit(-3);
             } else {
-                step = atoi(argv[2]);
+                step = atoi(argv[3]);
             }
         }
     }
@@ -75,6 +73,17 @@ int main(int argc, char *argv[]){
     SDL_Event event;
     // Main loop
     while(!quit){
+        int lives = 0;
+        for (int i = 0; i < game->height_num; i++){
+            for (int j = 0; j < game->width_num; j++){
+                if (game->array[i][j] == '1'){
+                    lives++;
+                }
+            }
+        }
+        if (lives == 0){
+            pause = 0;
+        }
         // Event handling
         while(SDL_PollEvent(&event)){
             // Quit
@@ -166,21 +175,23 @@ int main(int argc, char *argv[]){
             if (step == -1){
                 detect_neighbours(game);
                 SDL_Delay(game->delay);
+                generation ++;
             }else{
                 if (count < step){
                     detect_neighbours(game);
                     SDL_Delay(game->delay);
                     count++;
                 }
-                if (count == step + 1){
+                if (count == step){
                     pause = 0;
                     count ++;
                 }
-                if (count >= step && pause == 1){
+                if (count > step && pause == 1){
                     detect_neighbours(game);
                     SDL_Delay(game->delay);
                     count++;
                 }
+                generation ++;
             }
         }
         plot_game(game, renderer);
@@ -190,6 +201,15 @@ int main(int argc, char *argv[]){
         speedUpButton(renderer, game);
         clearButton(renderer, game);
         randomButton(renderer, game);
+        showGeneration(renderer);
+        showGenerationNum(generation, renderer);
+        showDelay(renderer, game);
+        showDelayNum(renderer, game);
+        if (pause == 0){
+            showPause(renderer, game);
+        }
+        showLives(renderer, game);
+        showLivesNum(renderer, game, lives);
         SDL_RenderPresent(renderer);
     }
 

@@ -34,5 +34,12 @@ int clearButton(SDL_Renderer *ButtonRender, window_t *game);
 int isClearOnButton(Uint32 x, Uint32 y, window_t *game);
 int randomButton(SDL_Renderer *ButtonRender, window_t *game);
 int isRandomOnButton(Uint32 x, Uint32 y, window_t *game);
+int showGeneration(SDL_Renderer *renderer);
+int showGenerationNum(int count, SDL_Renderer *renderer);
+int showDelay(SDL_Renderer *renderer, window_t *game);
+int showDelayNum(SDL_Renderer *renderer, window_t *game);
+int showPause(SDL_Renderer *renderer, window_t *game);
+int showLives(SDL_Renderer *renderer, window_t *game);
+int showLivesNum(SDL_Renderer *renderer, window_t *game, int lives);
 
 #endif //THEGAMEOFLIFE_WINDOW_H
