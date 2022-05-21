@@ -5,6 +5,11 @@
 #include <SDL_ttf.h>
 #include <stdio.h>
 
+/**
+ * @param game a struct containing all the game's data
+ * @param renderer the renderer to use
+ * @return -1 if an error occurred, 0 otherwise
+ */
 int plot_game(window_t *game, SDL_Renderer *renderer) {
     if (game == NULL || renderer == NULL) {
         return -1;
@@ -28,6 +33,10 @@ int plot_game(window_t *game, SDL_Renderer *renderer) {
     return 0;
 }
 
+/**
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int setting_colors(window_t * game){
     if (game == NULL) {
         return -1;
@@ -98,6 +107,11 @@ int setting_colors(window_t * game){
     return 0;
 }
 
+/**
+ * @param ButtonRender a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int PauseButton(SDL_Renderer *ButtonRender, window_t *game){
     if (game == NULL || ButtonRender == NULL) {
         return -1;
@@ -121,6 +135,13 @@ int PauseButton(SDL_Renderer *ButtonRender, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param x the x coordinate of the cell
+ * @param y the y coordinate of the cell
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int isPauseOnButton(Uint32 x, Uint32 y, window_t *game){
     if (game == NULL) {
         return -1;
@@ -130,6 +151,12 @@ int isPauseOnButton(Uint32 x, Uint32 y, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param ButtonRender a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int speedDownButton(SDL_Renderer *ButtonRender, window_t *game){
     if (game == NULL || ButtonRender == NULL) {
         return -1;
@@ -153,6 +180,13 @@ int speedDownButton(SDL_Renderer *ButtonRender, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param x the x coordinate of the cell
+ * @param y the y coordinate of the cell
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int isSpeedDownOnButton(Uint32 x, Uint32 y, window_t *game){
     if (game == NULL) {
         return -1;
@@ -162,6 +196,12 @@ int isSpeedDownOnButton(Uint32 x, Uint32 y, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param ButtonRender a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int speedUpButton(SDL_Renderer *ButtonRender, window_t *game){
     if(game == NULL || ButtonRender == NULL){
         return -1;
@@ -185,6 +225,13 @@ int speedUpButton(SDL_Renderer *ButtonRender, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param x the x coordinate of the cell
+ * @param y the y coordinate of the cell
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int isSpeedUpOnButton(Uint32 x, Uint32 y, window_t *game){
     if (game == NULL){
         return -1;
@@ -194,6 +241,12 @@ int isSpeedUpOnButton(Uint32 x, Uint32 y, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param ButtonRender a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int clearButton(SDL_Renderer *ButtonRender, window_t *game){
     if (game == NULL || ButtonRender == NULL){
         return -1;
@@ -217,6 +270,13 @@ int clearButton(SDL_Renderer *ButtonRender, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param x the x coordinate of the cell
+ * @param y the y coordinate of the cell
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int isClearOnButton(Uint32 x, Uint32 y, window_t *game){
     if (game == NULL){
         return -1;
@@ -226,6 +286,12 @@ int isClearOnButton(Uint32 x, Uint32 y, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param ButtonRender a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int randomButton(SDL_Renderer *ButtonRender, window_t *game){
     if (game == NULL || ButtonRender == NULL){
         return -1;
@@ -249,6 +315,13 @@ int randomButton(SDL_Renderer *ButtonRender, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param x the x coordinate of the cell
+ * @param y the y coordinate of the cell
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int isRandomOnButton(Uint32 x, Uint32 y, window_t *game){
     if (game == NULL){
         return -1;
@@ -258,6 +331,11 @@ int isRandomOnButton(Uint32 x, Uint32 y, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showGeneration(SDL_Renderer *renderer){
     if (renderer == NULL){
         return -1;
@@ -287,6 +365,12 @@ int showGeneration(SDL_Renderer *renderer){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @param count the number of the generation
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showGenerationNum(int count, SDL_Renderer *renderer){
     if (renderer == NULL){
         return -1;
@@ -317,6 +401,12 @@ int showGenerationNum(int count, SDL_Renderer *renderer){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showDelay(SDL_Renderer *renderer, window_t *game){
     if (renderer == NULL || game == NULL){
         return -1;
@@ -346,6 +436,12 @@ int showDelay(SDL_Renderer *renderer, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showDelayNum(SDL_Renderer *renderer, window_t *game){
     if (renderer == NULL || game == NULL){
         return -1;
@@ -376,6 +472,12 @@ int showDelayNum(SDL_Renderer *renderer, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showPause(SDL_Renderer *renderer, window_t *game){
     if (renderer == NULL || game == NULL){
         return -1;
@@ -405,6 +507,12 @@ int showPause(SDL_Renderer *renderer, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showLives(SDL_Renderer *renderer, window_t *game){
     if (renderer == NULL || game == NULL){
         return -1;
@@ -434,6 +542,13 @@ int showLives(SDL_Renderer *renderer, window_t *game){
     return 0;
 }
 
+/**
+ *
+ * @param renderer a pointer to the SDL_Renderer
+ * @param game a struct containing all the game's data
+ * @param lives the number of lives
+ * @return -1 if an error occurred, 0 if the pointer is NULL
+ */
 int showLivesNum(SDL_Renderer *renderer, window_t *game, int lives){
     if (renderer == NULL || game == NULL){
         return -1;

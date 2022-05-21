@@ -1,9 +1,30 @@
 #include "../game.h"
 #include "../CUnit/Basic.h"
 #include "../utilities.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/*
+ * This program is to test the functions in TheGameOfLife
+ * CONTAINS:
+ *  - game.c
+ *  - utilities.c
+ *  - window.c
+ *  --------------------------------------------------
+ *  All of the information will be demonstrated in the
+ *  console.
+ *  -------------------------------------------------
+ *  CUnit is used to as the testing framework.
+ *  -------------------------------------------------
+ *  Expected output:
+ *  Total suites: 1
+ *  Total tests: 24
+ *  Total asserts: 78
+ *  Total passed: 78
+ *  Total failed: 0
+ */
 
 window_t * init_structure (void){
     // Allocate memory for the test_struct
@@ -363,6 +384,102 @@ static void test_showGeneration(void){
     SDL_Quit();
 }
 
+static void test_showDelay(void){
+    // Window initialization
+    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 100, 100, SDL_WINDOW_SHOWN);
+    if(windows == NULL){
+        printf("\n[!] Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    // Renderer initialization
+    SDL_Renderer *renderer = SDL_CreateRenderer(windows, -1, SDL_RENDERER_ACCELERATED);
+    if(renderer == NULL){
+        printf("\n[!] Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    window_t * test = init_structure();
+    // Run the test
+    CU_ASSERT_EQUAL(showDelay(NULL, NULL), -1);
+    CU_ASSERT_EQUAL(showDelay(NULL, test), -1);
+    CU_ASSERT_EQUAL(showDelay(renderer, NULL), -1);
+    // Free the memory
+    free_memory(test);
+    SDL_DestroyWindow(windows);
+    SDL_Quit();
+}
+
+static void test_showDelayNum(void){
+    // Window initialization
+    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 100, 100, SDL_WINDOW_SHOWN);
+    if(windows == NULL){
+        printf("\n[!] Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    // Renderer initialization
+    SDL_Renderer *renderer = SDL_CreateRenderer(windows, -1, SDL_RENDERER_ACCELERATED);
+    if(renderer == NULL){
+        printf("\n[!] Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    window_t * test = init_structure();
+    // Run the test
+    CU_ASSERT_EQUAL(showDelayNum(NULL, NULL), -1);
+    CU_ASSERT_EQUAL(showDelayNum(NULL, test), -1);
+    CU_ASSERT_EQUAL(showDelayNum(renderer, NULL), -1);
+    // Free the memory
+    free_memory(test);
+    SDL_DestroyWindow(windows);
+    SDL_Quit();
+}
+
+static void test_showPause(void){
+    // Window initialization
+    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 100, 100, SDL_WINDOW_SHOWN);
+    if(windows == NULL){
+        printf("\n[!] Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    // Renderer initialization
+    SDL_Renderer *renderer = SDL_CreateRenderer(windows, -1, SDL_RENDERER_ACCELERATED);
+    if(renderer == NULL){
+        printf("\n[!] Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    window_t * test = init_structure();
+    // Run the test
+    CU_ASSERT_EQUAL(showPause(NULL, NULL), -1);
+    CU_ASSERT_EQUAL(showPause(NULL, test), -1);
+    CU_ASSERT_EQUAL(showPause(renderer, NULL), -1);
+    // Free the memory
+    free_memory(test);
+    SDL_DestroyWindow(windows);
+    SDL_Quit();
+}
+
+static void test_showLives(void){
+    // Window initialization
+    SDL_Window *windows = SDL_CreateWindow("The Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 100, 100, SDL_WINDOW_SHOWN);
+    if(windows == NULL){
+        printf("\n[!] Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    // Renderer initialization
+    SDL_Renderer *renderer = SDL_CreateRenderer(windows, -1, SDL_RENDERER_ACCELERATED);
+    if(renderer == NULL){
+        printf("\n[!] Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        exit(1);
+    }
+    window_t * test = init_structure();
+    // Run the test
+    CU_ASSERT_EQUAL(showLives(NULL, NULL), -1);
+    CU_ASSERT_EQUAL(showLives(NULL, test), -1);
+    CU_ASSERT_EQUAL(showLives(renderer, NULL), -1);
+    // Free the memory
+    free_memory(test);
+    SDL_DestroyWindow(windows);
+    SDL_Quit();
+}
+
 int main(int argc, char * argv[]){
     // Initialize the CUnit test registry
     if (CUE_SUCCESS != CU_initialize_registry())
@@ -395,7 +512,11 @@ int main(int argc, char * argv[]){
         (NULL == CU_add_test(pSuite, "test_isClearOnButton", test_isClearOnButton)) ||
         (NULL == CU_add_test(pSuite, "test_randomButton", test_randomButton)) ||
         (NULL == CU_add_test(pSuite, "test_isRandomOnButton", test_isRandomOnButton)) ||
-        (NULL == CU_add_test(pSuite, "test_showGeneration", test_showGeneration))
+        (NULL == CU_add_test(pSuite, "test_showGeneration", test_showGeneration)) ||
+        (NULL == CU_add_test(pSuite, "test_showDelay", test_showDelay)) ||
+        (NULL == CU_add_test(pSuite, "test_showDelayNum", test_showDelayNum)) ||
+        (NULL == CU_add_test(pSuite, "test_showPause", test_showPause)) ||
+        (NULL == CU_add_test(pSuite, "test_showSpeed", test_showLives))
         ) {
         CU_cleanup_registry();
         return CU_get_error();

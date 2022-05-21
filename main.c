@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <SDL.h>
 
-
 int main(int argc, char *argv[]){
     int step = 0;
     int count = 0;
@@ -14,7 +13,9 @@ int main(int argc, char *argv[]){
     int mouseRight = 0;
     int mode = 0;
     int generation = 0;
+    int nextEvolve = 0;
 
+    // Detect the arguments
     if (argc < 3 || argc > 4){
         printf("\n[!] Error! Expected use: ./play [FILENAME] [MODE] [STEPS]\n");
         exit(-1);
@@ -39,6 +40,7 @@ int main(int argc, char *argv[]){
         }
     }
 
+    // Print the loading information
     printf("\n[+] Initializing the game...\n");
 
     window_t * game = init_game(argv[1]);
@@ -61,10 +63,7 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-    // Initialize Surface
-//    SDL_Surface *ButtonSur = NULL;
-//    SDL_Texture *ButtonText = NULL;
-
+    // Detect the mode user wants to play
     if (mode == 1){
         clear_screen(game);
     }
@@ -117,11 +116,15 @@ int main(int argc, char *argv[]){
                     case SDLK_RIGHT:
                         clear_screen(game);
                         random(game);
+                    case SDLK_1:
+                        nextEvolve = 1;
+                        break;
                 }
             }
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     mouseLeft = 1;
+                    // Detect the click on the buttons
                     if (isPauseOnButton(event.button.x, event.button.y, game)){
                         pause = !pause;
                     }
@@ -145,10 +148,12 @@ int main(int argc, char *argv[]){
                         random(game);
                     }
                 }
+                // Kill the lives
                 if (event.button.button == SDL_BUTTON_RIGHT){
                     mouseRight = 1;
                 }
             }
+            // Reset the state of the mouse
             if (event.type == SDL_MOUSEBUTTONUP){
                 if (event.button.button == SDL_BUTTON_LEFT){
                     mouseLeft = 0;
@@ -157,6 +162,7 @@ int main(int argc, char *argv[]){
                     mouseRight = 0;
                 }
             }
+            // Detect the event of mouse
             if (event.type == SDL_MOUSEMOTION){
                 int new_x = event.button.x / game->point_size;
                 int new_y = event.button.y / game->point_size;
@@ -170,8 +176,10 @@ int main(int argc, char *argv[]){
             }
         }
         SDL_RenderClear(renderer);
+        // Draw the cell
         SDL_SetRenderDrawColor(renderer, game->R_cell, game->G_cell, game->B_cell, 1);
-        if (pause){
+        // If the program pause
+        if (pause || nextEvolve==1){
             if (step == -1){
                 detect_neighbours(game);
                 SDL_Delay(game->delay);
@@ -193,29 +201,47 @@ int main(int argc, char *argv[]){
                 }
                 generation ++;
             }
+            nextEvolve = 0;
         }
+        // Plot the cell on the window
         plot_game(game, renderer);
+        // Draw the background of the window
         SDL_SetRenderDrawColor(renderer, game->R_bac, game->G_bac, game->B_bac, 1);
+        // Show the pause button
         PauseButton(renderer, game);
+        // Show the speed up button
         speedDownButton(renderer, game);
+        // Show the speed down button
         speedUpButton(renderer, game);
         clearButton(renderer, game);
+        // Show the random button
         randomButton(renderer, game);
+        // Show the generation
         showGeneration(renderer);
+        // Show the generation
         showGenerationNum(generation, renderer);
+        // Show the delay
         showDelay(renderer, game);
+        // Show the number of delay
         showDelayNum(renderer, game);
+        // Show the pause
         if (pause == 0){
             showPause(renderer, game);
         }
+        // Show the live
         showLives(renderer, game);
+        // Show the number of live
         showLivesNum(renderer, game, lives);
         SDL_RenderPresent(renderer);
     }
 
+    // Save the game
     save_game(game);
+    // Free the memory
     end_game(game);
+    // Close the window
     SDL_DestroyWindow(windows);
+    // Quit SDL
     SDL_Quit();
     return EXIT_SUCCESS;
 }

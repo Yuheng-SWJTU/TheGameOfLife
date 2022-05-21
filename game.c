@@ -6,7 +6,12 @@
 #include <string.h>
 #include <SDL.h>
 
-// A function to initial the game
+/**
+ * @brief Initializes the game.
+ *
+ * @param game The game to initialize.
+ * @return 0 on success, -1 on failure.
+ */
 window_t * init_game( char * init_file ){
     // Allocate memory for the window_t
     window_t * game = malloc(sizeof(window_t));
@@ -116,6 +121,11 @@ window_t * init_game( char * init_file ){
     return game;
 }
 
+/**
+ * @brief This function is used to detect the next generation of the game
+ * @param game is the game struct
+ * @return return 0 if the function is successful, -1 if pointer is NULL
+ */
 int detect_neighbours(window_t * game){
     // Detect the pointer of game is NULL
     if (game == NULL) {
@@ -127,7 +137,6 @@ int detect_neighbours(window_t * game){
         for (int j = 0; j < game->width_num; j++) {
             // Define the number of neighbours
             int neighbours = 0;
-            // Check the top left corner
             if (i > 0 && j > 0 && game->array[i - 1][j - 1] == '1') {
                 neighbours++;
             }
@@ -186,6 +195,11 @@ int detect_neighbours(window_t * game){
     return 0;
 }
 
+/**
+ * @brief This function is used to clear the screen
+ * @param game is the game struct
+ * @return 0 if the function is successful, -1 if the pointer is NULL
+ */
 int clear_screen(window_t * game){
     // Detect the pointer of game is NULL
     if (game == NULL) {
@@ -201,6 +215,11 @@ int clear_screen(window_t * game){
     return 0;
 }
 
+/**
+ * @brief This function is used to generate the lives randomly
+ * @param game is the game struct
+ * @return 0 if the function is successful, -1 if the pointer is NULL
+ */
 int random(window_t * game){
     // Detect the pointer of game is NULL
     if (game == NULL) {
@@ -212,7 +231,6 @@ int random(window_t * game){
         for (int j = 0; j < game->width_num; j++) {
             // Generate a random number
             int random_number = rand() % 6;
-            // If the number is 1, the cell is alive
             if (random_number == 1) {
                 game->array[i][j] = '1';
             } else {
@@ -223,6 +241,11 @@ int random(window_t * game){
     return 0;
 }
 
+/**
+ * @brief This function is used to free the memory
+ * @param game is the game struct
+ * @return 0 if the function is successful, -1 if the pointer is NULL
+ */
 int end_game(window_t * game){
     // Detect the pointer of game is NULL
     if (game == NULL) {
@@ -240,6 +263,11 @@ int end_game(window_t * game){
     return 0;
 }
 
+/**
+ * @brief This function is used to save the game into a file
+ * @param game is the game struct
+ * @return 0 if the function is successful, -1 if the pointer is NULL
+ */
 int save_game(window_t * game){
     // Detect the pointer of game is NULL
     if (game == NULL) {
