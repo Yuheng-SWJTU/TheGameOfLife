@@ -9,6 +9,7 @@
 🎑<b> Dependencies: SDL, SDL_image, SDL_ttf, CUnit</b>
 
 ## Git Repository 
+![github com_Bilgin-L_TheGameOfLife_commits_master](https://user-images.githubusercontent.com/35908425/169662645-03b88cee-67f7-40df-bc56-75bd9722a2d3.png)
 
 ## Project Context
 
