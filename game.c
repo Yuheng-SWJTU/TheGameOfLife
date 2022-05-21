@@ -116,7 +116,12 @@ window_t * init_game( char * init_file ){
     return game;
 }
 
-void detect_neighbours(window_t * game){
+int detect_neighbours(window_t * game){
+    // Detect the pointer of game is NULL
+    if (game == NULL) {
+        printf("\n[!] Error: the 'game' pointer is NULL!\n");
+        return -1;
+    }
     // Loop through the array
     for (int i = 0; i < game->height_num; i++) {
         for (int j = 0; j < game->width_num; j++) {
@@ -178,18 +183,30 @@ void detect_neighbours(window_t * game){
     for (int i = 0; i < game->height_num; i ++) {
         memcpy(game->array[i], game->array_next[i], game->width_num * sizeof (unsigned char));
     }
+    return 0;
 }
 
-void clear_screen(window_t * game){
+int clear_screen(window_t * game){
+    // Detect the pointer of game is NULL
+    if (game == NULL) {
+        printf("\n[!] Error: the 'game' pointer is NULL!\n");
+        return -1;
+    }
     // Clear the screen
     for (int i = 0; i < game->height_num; i++) {
         for (int j = 0; j < game->width_num; j++) {
             game->array[i][j] = '0';
         }
     }
+    return 0;
 }
 
-void random(window_t * game){
+int random(window_t * game){
+    // Detect the pointer of game is NULL
+    if (game == NULL) {
+        printf("\n[!] Error: the 'game' pointer is NULL!\n");
+        return -1;
+    }
     // Loop through the array
     for (int i = 0; i < game->height_num; i++) {
         for (int j = 0; j < game->width_num; j++) {
@@ -199,14 +216,19 @@ void random(window_t * game){
             if (random_number == 1) {
                 game->array[i][j] = '1';
             } else {
-                // If the number is 0, the cell is dead
                 game->array[i][j] = '0';
             }
         }
     }
+    return 0;
 }
 
-void end_game(window_t * game){
+int end_game(window_t * game){
+    // Detect the pointer of game is NULL
+    if (game == NULL) {
+        printf("\n[!] Error: the 'game' pointer is NULL!\n");
+        return -1;
+    }
     // Free the memory
     for (int i = 0; i < game->height_num; i++) {
         free(game->array[i]);
@@ -215,9 +237,15 @@ void end_game(window_t * game){
     free(game->array);
     free(game->array_next);
     free(game);
+    return 0;
 }
 
-void save_game(window_t * game){
+int save_game(window_t * game){
+    // Detect the pointer of game is NULL
+    if (game == NULL) {
+        printf("\n[!] Error: the 'game' pointer is NULL!\n");
+        return -1;
+    }
     // Open the file
     FILE * file = fopen("history.txt", "w");
     // If error, return
@@ -242,4 +270,6 @@ void save_game(window_t * game){
     }
     // Close the file
     fclose(file);
+    printf("[+] Saving complete!\n");
+    return 0;
 }

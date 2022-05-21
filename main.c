@@ -196,7 +196,7 @@ int main(int argc, char *argv[]){
         }
         plot_game(game, renderer);
         SDL_SetRenderDrawColor(renderer, game->R_bac, game->G_bac, game->B_bac, 1);
-        PauseButton(0, renderer, game);
+        PauseButton(renderer, game);
         speedDownButton(renderer, game);
         speedUpButton(renderer, game);
         clearButton(renderer, game);

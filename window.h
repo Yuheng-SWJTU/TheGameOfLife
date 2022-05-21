@@ -22,9 +22,9 @@ typedef struct {
     unsigned char ** array_next;
 } window_t;
 
-void plot_game(window_t *game, SDL_Renderer *renderer);
+int plot_game(window_t *game, SDL_Renderer *renderer);
 int setting_colors(window_t * game);
-int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game);
+int PauseButton(SDL_Renderer *ButtonRender, window_t *game);
 int isPauseOnButton(Uint32 x, Uint32 y, window_t *game);
 int speedDownButton(SDL_Renderer *ButtonRender, window_t *game);
 int isSpeedDownOnButton(Uint32 x, Uint32 y, window_t *game);

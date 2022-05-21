@@ -5,7 +5,10 @@
 #include <SDL_ttf.h>
 #include <stdio.h>
 
-void plot_game(window_t *game, SDL_Renderer *renderer) {
+int plot_game(window_t *game, SDL_Renderer *renderer) {
+    if (game == NULL || renderer == NULL) {
+        return -1;
+    }
     // Plot the game
     for (int i = 0; i < game->height_num; i ++) {
         for (int j = 0; j < game->width_num; j ++) {
@@ -22,9 +25,13 @@ void plot_game(window_t *game, SDL_Renderer *renderer) {
             }
         }
     }
+    return 0;
 }
 
 int setting_colors(window_t * game){
+    if (game == NULL) {
+        return -1;
+    }
     if (strcmp(game->background_color, "white\n") == 0) {
         game->R_bac = 255;
         game->G_bac = 255;
@@ -91,7 +98,10 @@ int setting_colors(window_t * game){
     return 0;
 }
 
-int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game){
+int PauseButton(SDL_Renderer *ButtonRender, window_t *game){
+    if (game == NULL || ButtonRender == NULL) {
+        return -1;
+    }
     SDL_Surface *ButtonSur = NULL;
     SDL_Texture *ButtonText = NULL;
     SDL_Rect ButtRect;
@@ -100,7 +110,7 @@ int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game){
     ButtRect.w = 40;
     ButtRect.h = 40;
     const char* buttonPausePlayFile[] = {"images/button_pause_0.png"};
-    const char * OpenButton = buttonPausePlayFile[ButtonMode];
+    const char * OpenButton = buttonPausePlayFile[0];
     ButtonSur = IMG_Load(OpenButton);
     if (ButtonSur == NULL) {
         printf("\n[!] Error: Cannot load the button image!\n");
@@ -112,12 +122,18 @@ int PauseButton(Uint32 ButtonMode, SDL_Renderer *ButtonRender, window_t *game){
 }
 
 int isPauseOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (game == NULL) {
+        return -1;
+    }
     if (x >= game->width / 2 - 20 && x <= game->width / 2 + 20)
         if (y >= game->height + 10 && y <= game->height + 50) return 1;
     return 0;
 }
 
 int speedDownButton(SDL_Renderer *ButtonRender, window_t *game){
+    if (game == NULL || ButtonRender == NULL) {
+        return -1;
+    }
     SDL_Surface *ButtonSur = NULL;
     SDL_Texture *ButtonText = NULL;
     SDL_Rect ButtRect;
@@ -138,12 +154,18 @@ int speedDownButton(SDL_Renderer *ButtonRender, window_t *game){
 }
 
 int isSpeedDownOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (game == NULL) {
+        return -1;
+    }
     if (x >= game->width / 2 - 70 && x <= game->width / 2 - 40)
         if (y >= game->height + 15 && y <= game->height + 45) return 1;
     return 0;
 }
 
 int speedUpButton(SDL_Renderer *ButtonRender, window_t *game){
+    if(game == NULL || ButtonRender == NULL){
+        return -1;
+    }
     SDL_Surface *ButtonSur = NULL;
     SDL_Texture *ButtonText = NULL;
     SDL_Rect ButtRect;
@@ -164,12 +186,18 @@ int speedUpButton(SDL_Renderer *ButtonRender, window_t *game){
 }
 
 int isSpeedUpOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (game == NULL){
+        return -1;
+    }
     if (x >= game->width / 2 + 40 && x <= game->width / 2 + 70)
         if (y >= game->height + 15 && y <= game->height + 45) return 1;
     return 0;
 }
 
 int clearButton(SDL_Renderer *ButtonRender, window_t *game){
+    if (game == NULL || ButtonRender == NULL){
+        return -1;
+    }
     SDL_Surface *ButtonSur = NULL;
     SDL_Texture *ButtonText = NULL;
     SDL_Rect ButtRect;
@@ -190,12 +218,18 @@ int clearButton(SDL_Renderer *ButtonRender, window_t *game){
 }
 
 int isClearOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (game == NULL){
+        return -1;
+    }
     if (x >= 10 && x <= 40)
         if (y >= game->height + 15 && y <= game->height + 45) return 1;
     return 0;
 }
 
 int randomButton(SDL_Renderer *ButtonRender, window_t *game){
+    if (game == NULL || ButtonRender == NULL){
+        return -1;
+    }
     SDL_Surface *ButtonSur = NULL;
     SDL_Texture *ButtonText = NULL;
     SDL_Rect ButtRect;
@@ -216,12 +250,18 @@ int randomButton(SDL_Renderer *ButtonRender, window_t *game){
 }
 
 int isRandomOnButton(Uint32 x, Uint32 y, window_t *game){
+    if (game == NULL){
+        return -1;
+    }
     if (x >= game->width - 40 && x <= game->width - 10)
         if (y >= game->height + 15 && y <= game->height + 45) return 1;
     return 0;
 }
 
 int showGeneration(SDL_Renderer *renderer){
+    if (renderer == NULL){
+        return -1;
+    }
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());
         exit(2);
@@ -248,6 +288,9 @@ int showGeneration(SDL_Renderer *renderer){
 }
 
 int showGenerationNum(int count, SDL_Renderer *renderer){
+    if (renderer == NULL){
+        return -1;
+    }
     char str[10];
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());
@@ -275,6 +318,9 @@ int showGenerationNum(int count, SDL_Renderer *renderer){
 }
 
 int showDelay(SDL_Renderer *renderer, window_t *game){
+    if (renderer == NULL || game == NULL){
+        return -1;
+    }
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());
         exit(2);
@@ -301,6 +347,9 @@ int showDelay(SDL_Renderer *renderer, window_t *game){
 }
 
 int showDelayNum(SDL_Renderer *renderer, window_t *game){
+    if (renderer == NULL || game == NULL){
+        return -1;
+    }
     char str[10];
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());
@@ -328,6 +377,9 @@ int showDelayNum(SDL_Renderer *renderer, window_t *game){
 }
 
 int showPause(SDL_Renderer *renderer, window_t *game){
+    if (renderer == NULL || game == NULL){
+        return -1;
+    }
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());
         exit(2);
@@ -354,6 +406,9 @@ int showPause(SDL_Renderer *renderer, window_t *game){
 }
 
 int showLives(SDL_Renderer *renderer, window_t *game){
+    if (renderer == NULL || game == NULL){
+        return -1;
+    }
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());
         exit(2);
@@ -380,6 +435,9 @@ int showLives(SDL_Renderer *renderer, window_t *game){
 }
 
 int showLivesNum(SDL_Renderer *renderer, window_t *game, int lives){
+    if (renderer == NULL || game == NULL){
+        return -1;
+    }
     char str[10];
     if (TTF_Init() == -1) {
         printf("[!] TTF_Init: %s\n", TTF_GetError());

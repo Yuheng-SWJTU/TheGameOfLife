@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(TheGameOfLife C)
+project(test C)
 
 set(CMAKE_C_STANDARD 99)
 
@@ -23,11 +23,7 @@ include_directories(${SDL2_DIR})
 # 关联所有的库
 link_directories(${SDL2_LINK})
 
-add_executable(TheGameOfLife main.c window.c game.c utilities.c utilities.h window.h game.h)
+add_executable(test test_unit.c ../game.c ../game.h ../utilities.c ../utilities.h ../window.c ../window.h)
 
 # 配置关联库的名称
-target_link_libraries(TheGameOfLife mingw32 SDL2main SDL2 SDL2_image SDL2_ttf)
-
-ADD_SUBDIRECTORY(test)
-
-#add_executable(test01 test_unit.c)
+target_link_libraries(test CUnit SDL2 SDL2_image SDL2_ttf)
