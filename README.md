@@ -8,9 +8,6 @@
 
 🎑<b> Dependencies: SDL, SDL_image, SDL_ttf, CUnit</b>
 
-## Git Repository 
-![github com_Bilgin-L_TheGameOfLife_commits_master](https://user-images.githubusercontent.com/35908425/169662645-03b88cee-67f7-40df-bc56-75bd9722a2d3.png)
-
 ## Project Context
 
 This is a project implements Conway's Game of Life with a extremely pretty good window using SDL and has interactions with users.
@@ -19,21 +16,6 @@ This is a project implements Conway's Game of Life with a extremely pretty good 
 
 Before you start the program, you should follow the instructions below to configure environment.
 
-### 📃File Structure
-
-TheGameOfLife
-
-​        |____________CUnit
-
-​		|____________SDL2
-
-​		|____________images, fonts
-
-​		|____________test
-
-​				|____________CMakeList.txt, test_unit.c
-
-​		|____________CMakeList.txt, game.c, game.h, main.c, utilities.c, utilities.h, window.c, window.h
 
 ### 🎁Install SDL and extensions
 
@@ -86,9 +68,7 @@ There are some buttons in the surface, you can click all buttons by mouse to imp
 
 ## Developer
 
-🏫 About me: A CS student studies in SWJTU-Leeds Joint School, enjoying the process of coding and the experience of researching on AI field.
-
-📧 E-mail: sc20yl2@leeds.ac.uk
+📧 E-mail: sc20yl2@leeds.ac.uk | i@bilgin.top
 
 📞 We-Chat: Bilgin_L
 
